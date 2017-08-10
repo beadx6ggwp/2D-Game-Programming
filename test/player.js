@@ -1,4 +1,5 @@
-function Player(x, y) {
+function Player(map, x, y) {
+    this.map = map;
     this.x = x;
     this.y = y;
 

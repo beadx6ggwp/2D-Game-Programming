@@ -17,7 +17,7 @@ function Tilemap(name, tileSize) {
         3, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 3,
         3, 3, 3, 1, 1, 2, 3, 3, 3, 3, 3, 3
     ], [
-        4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4,
+        4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4,
         4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4,
         4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4,
         4, 0, 0, 5, 0, 0, 0, 0, 0, 5, 0, 4,
@@ -28,7 +28,7 @@ function Tilemap(name, tileSize) {
         4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4,
         4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4,
         4, 4, 4, 0, 5, 4, 4, 4, 4, 4, 4, 4,
-        4, 4, 4, 0, 0, 3, 3, 3, 3, 3, 3, 3
+        4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0
     ]];
 }
 
@@ -45,15 +45,15 @@ Tilemap.prototype.draw = function (ctx, layer) {
         }
     }
 }
-Tilemap.prototype.drawTile = function (ctx, sx, sy, c, r) {
+Tilemap.prototype.drawTile = function (ctx, sx, sy, tx, ty) {
     ctx.drawImage(
         this.image, // image
         sx * this.tileSize, // source x
         sy * this.tileSize, // source y
         this.tileSize, // source width
         this.tileSize, // source height
-        c * this.tileSize,  // target x
-        r * this.tileSize, // target y
+        tx * this.tileSize,  // target x
+        ty * this.tileSize, // target y
         this.tileSize, // target width
         this.tileSize // target height
     );

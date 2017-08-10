@@ -29,8 +29,8 @@ function main() {
     ctx = CreateDisplay("myCanvas", 512, 512);
     width = ctx.canvas.width; height = ctx.canvas.height;
 
-    player = new Player(100, 100);
     tilemap = new Tilemap("tiles", 64);
+    player = new Player(tilemap, 100, 100);
 
     window.requestAnimationFrame(mainLoop);
 }
