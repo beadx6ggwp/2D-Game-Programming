@@ -17,20 +17,48 @@ window.onload = function () {
 //--------------------------------------------
 
 var keys = {};
-var player, tilemap;
+var player;
+var tileAtlas;
+
+var map = {
+    cols: 8,
+    rows: 8,
+    tsize: 64,
+    layers: [[
+        3, 3, 3, 3, 3, 3, 3, 3,
+        3, 1, 1, 1, 1, 1, 1, 3,
+        3, 1, 1, 1, 1, 2, 1, 3,
+        3, 1, 1, 1, 1, 1, 1, 3,
+        3, 1, 1, 2, 1, 1, 1, 3,
+        3, 1, 1, 1, 2, 1, 1, 3,
+        3, 1, 1, 1, 2, 1, 1, 3,
+        3, 3, 3, 1, 2, 3, 3, 3
+    ], [
+        4, 3, 3, 3, 3, 3, 3, 4,
+        4, 0, 0, 0, 0, 0, 0, 4,
+        4, 0, 0, 0, 0, 0, 0, 4,
+        4, 0, 0, 5, 0, 0, 0, 4,
+        4, 0, 0, 0, 0, 0, 0, 4,
+        4, 0, 0, 0, 0, 0, 0, 4,
+        4, 4, 4, 0, 5, 4, 4, 4,
+        0, 3, 3, 0, 0, 3, 3, 3
+    ]],
+    getTile: function (layer, col, row) {
+        return this.layers[layer][row * map.cols + col];
+    }
+};
 
 function main() {
     console.log("Start");
 
-
     Loader.loadImage("player", "resource/character.png");
     Loader.loadImage("tiles", "resource/tiles.png");
 
-    ctx = CreateDisplay("myCanvas", 512, 512);
+    ctx = CreateDisplay("myCanvas", 800, 600);
     width = ctx.canvas.width; height = ctx.canvas.height;
 
     player = new Player(100, 100);
-    tilemap = new Tilemap("tiles", 64);
+    tileAtlas = Loader.getImage("tiles");
 
     window.requestAnimationFrame(mainLoop);
 }
@@ -47,10 +75,34 @@ function update(dt) {
 }
 
 function draw(ctx) {
-    tilemap.draw(ctx, 0);
+    drawLayer(0);
+
     player.draw(ctx);
-    tilemap.draw(ctx, 1);
+
+    drawLayer(1);
 }
+
+function drawLayer(layer) {
+    for (var c = 0; c < map.cols; c++) {
+        for (var r = 0; r < map.rows; r++) {
+            var tile = map.getTile(layer, c, r);
+            if (tile !== 0) { // 0 => empty tile
+                this.ctx.drawImage(
+                    this.tileAtlas, // image
+                    (tile - 1) * map.tsize, // source x
+                    0, // source y
+                    map.tsize, // source width
+                    map.tsize, // source height
+                    c * map.tsize,  // target x
+                    r * map.tsize, // target y
+                    map.tsize, // target width
+                    map.tsize // target height
+                );
+            }
+        }
+    }
+}
+
 
 function mainLoop(timestamp) {
     let Timesub = timestamp - lastTime;// get sleep
