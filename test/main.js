@@ -32,14 +32,14 @@ var animation,
 
 window.onload = function () {
     document.addEventListener("keydown", keydown, false);
-    document.addEventListener("keyup", keyup, false);   
+    document.addEventListener("keyup", keyup, false);
 
     main();
 }
 //--------------------------------------------
 
 var keys = {};
-var player, tilemap;
+var player, tilemap, camera;
 
 function main() {
     console.log("Start");
@@ -53,19 +53,18 @@ function main() {
 
     tilemap = new Tilemap("tiles", 64);
     player = new Player(tilemap, 100, 100);
+    camera = new Camera(tilemap, width, height);
 
     window.requestAnimationFrame(mainLoop);
 }
 
 
 function update(dt) {
-    let dirx = 0, diry = 0;
 
-    if (keys[37]) dirx = -1;
-    else if (keys[39]) dirx = 1;
-    else if (keys[38]) diry = -1;
-    else if (keys[40]) diry = 1;
-    player.update(dt, dirx, diry);
+    player.update(dt);
+
+    camera.follow(player);
+    camera.update(dt);
 }
 
 function draw(ctx) {

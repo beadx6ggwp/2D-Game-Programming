@@ -15,7 +15,7 @@ function Tilemap(name, tileSize) {
         3, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 3,
         3, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 3,
         3, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 3,
-        3, 3, 3, 1, 1, 2, 3, 3, 3, 3, 3, 3
+        3, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3
     ], [
         4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4,
         4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4,
@@ -33,7 +33,7 @@ function Tilemap(name, tileSize) {
 }
 
 Tilemap.prototype.getTile = function (layer, col, row) {
-    return this.map[layer][row * this.cols + col];
+    return this.map[layer][col + row * this.cols ];
 }
 
 Tilemap.prototype.draw = function (ctx, layer) {
@@ -52,8 +52,8 @@ Tilemap.prototype.drawTile = function (ctx, sx, sy, tx, ty) {
         sy * this.tileSize, // source y
         this.tileSize, // source width
         this.tileSize, // source height
-        tx * this.tileSize,  // target x
-        ty * this.tileSize, // target y
+        tx * this.tileSize - Math.round(camera.x),  // target x
+        ty * this.tileSize - Math.round(camera.y), // target y
         this.tileSize, // target width
         this.tileSize // target height
     );
